@@ -11,6 +11,7 @@ module Blueprinter
       options_without_default = options.reject { |k,_| k == :default || k == :default_if }
       # Merge in assocation options hash
       local_options = local_options.merge(options[:options]) if options[:options].is_a?(Hash)
+      local_options = local_options.dup.tap { |h| h.delete(:only_fields) }
       value = @extractor.extract(association_name, object, local_options, options_without_default)
       return default_value(options) if use_default_value?(value, options[:default_if])
       view = options[:view] || :default
