@@ -14,6 +14,8 @@ class Blueprinter::Field
   end
 
   def skip?(field_name, object, local_options)
+    only_fields = local_options[:only_fields]
+    return true unless only_fields.nil? || only_fields.include?(field_name)
     return true if if_callable && !if_callable.call(field_name, object, local_options)
     unless_callable && unless_callable.call(field_name, object, local_options)
   end
